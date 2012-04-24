@@ -55,7 +55,7 @@ a.zoomer {
 
 
 .pictures img{
-	display:none;
+	display:block;
 	border-radius:5px;
 }
 

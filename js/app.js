@@ -1,97 +1,39 @@
-var mm = MM;
-var url = 'http://api.tiles.mapbox.com/v3/';
-var baseLayer = 'jue.map-9f0twc3h';
-var locLayer = ',jue.coasttowns';
+var m;
+var url = 'http://api.tiles.mapbox.com/v3/jue.map-9f0twc3h,jue.coasttowns';
 
-wax.tilejson(url + baseLayer + locLayer + '.jsonp',function(tilejson) {
-	tilejson.minzoom = 7;
-	tilejson.maxzoom = 16;
-	m = new mm.Map('map', new wax.mm.connector(tilejson),null, [
-		new mm.MouseHandler(),
-		new mm.TouchHandler()
-		]
-	);
-	m.setZoomRange(7, 16);
-	m.setCenterZoom(new mm.Location(43.565,-127.049),8);
-	wax.mm.zoomer(map,tilejson).appendTo(map.parent);
-	tilejson.attribution = '';
+wax.tilejson(url, function(tilejson) {
+    m = new MM.Map('map', new wax.mm.connector(tilejson));
 
     wax.mm.interaction()
-    	.map(m).tilejson(tilejson).on(wax.movetip().parent(m.parent).events())
-    		
-    // avoid tooltip overlap, not working yet
+      .map(m)
+      .tilejson(tilejson)
+      .on(wax.tooltip().animate(true).parent(m.parent).events());
 
-    /*		{on: function(){
-    			if (zoomlevel == 10) {
-                    console.log(zoomlevel);
-                	$('.wax-tooltip').addClass('z10');  
-    			}
-    		}
-    	);	
-    */
-    	
-    //trying to turn on "photo layer" with callback and zoom
-    
-     /*m.addCallback("drawn", function (m){
-         var zoomlevel = m.getZoom();
-         	if (zoomlevel == 11){
-         		$('.pictures img').addClass('appear');
-         	}
-         	if (zoomlevel > 11){
-         		$('.pictures img').removeClass('appear');
-            }
-     });
-    */
-    
-	//refresh
-
-function refreshMap(baseLayer) {
-    wax.tilejson(url + baseLayer + locLayer + '.jsonp', function (tilejson) {
-          tilejson.minzoom = 6;
-          tilejson.maxzoom = 14;
-          m.setProvider(new wax.mm.connector(tilejson));
-          $('.wax-legends').remove();
-          wax.mm.legend(m, tilejson).appendTo(m.parent);
-          wax.mm.interaction(m,tilejson);
-      });
-}
-
-    //flickr
-
-window.jsonFlickrApi = function(rsp) {
-	var photos = rsp.photos.photo;
-	for (var i = 0; i < photos.length; i++) {
-    	var p = photos[i];
-    	var url = [ 'http://farm', p.farm, '.static.flickr.com/', p.server, '/', p.id, '_', p.secret, '_s.jpg' ].join('');    
-       	var html = "<" + "img src='" + url + "'" + ">"; // weird for 'eval', sorry
-       	var location = new mm.Location(p.latitude, p.longitude);
-       	var dimensions = new mm.Point(75, 75); //this gives dimension to div
-       	var f = new mm.Follower(m, location, html, dimensions);
-   	}
-}
-	var extent = m.getExtent();
-	var bbox = [extent.west, extent.south, extent.east, extent.north].join(',');
-	var script = document.createElement('script');
-		script.src = 'http://api.flickr.com/services/rest/?'+
-        	       'method=flickr.photos.search&'+
-            	   'api_key=a96cbef093a8c0280d3aed4e0c004d4c&'+
-                   'tags=coast&'+
-                   'extras=geo&'+
-               	   'bbox=' + bbox +
-                   'has_geo=1&'+
-                   'format=json';
-		document.getElementsByTagName('head')[0].appendChild(script);
-
+    m.setCenterZoom({ lat:43.565, lon:-127.049 }, 8);
+    wax.mm.zoomer(m, tilejson).appendTo(m.parent);
 });
-	
-    
-    // easeIt
 
-function easeIt(x, y, z, callback) {
+var extent = m.getExtent();
+var bbox = [extent.west, extent.south, extent.east, extent.north].join(',');
+
+var script = document.createElement('script');
+	script.src = 'http://api.flickr.com/services/rest/?'+
+	       'method=flickr.photos.search&'+
+    	   'api_key=a96cbef093a8c0280d3aed4e0c004d4c&'+
+           'tags=coast&'+
+           'extras=geo&'+
+       	   'bbox=' + bbox +
+           'has_geo=1&'+
+           'format=json';
+document.getElementsByTagName('head')[0].appendChild(script);
+
+
+// easeIt
+var easeIt = function(x, y, z, callback) {
     var options = {
-        location: new mm.Location(x, y),
+        location: new MM.Location(x, y),
         zoom: z || 13,
-        ease: 'ease-in',
+        ease: 'ease',
         time: 2000
         };
     if (typeof callback === 'function') {
@@ -224,10 +166,24 @@ $('.title a').click(function (e) {
    	easeIt(43.565,-127.049,10);
 });
 
-	// turn pictures on (how to get it into a loop?)
-	
+// turn pictures on (how to get it into a loop?)
 $('#intro-click').click(function (e){
 	e.preventDefault();
+	
+	//flickr 
+	var jsonFlickrApi = function(rsp) {
+		var photos = rsp.photos.photo;
+		for (var i = 0; i < photos.length; i++) {
+	    	var p = photos[i];
+	    	var url = [ 'http://farm', p.farm, '.static.flickr.com/', p.server, '/', p.id, '_', p.secret, '_s.jpg' ].join('');    
+	       	var html = "<" + "img src='" + url + "'" + ">"; // weird for 'eval', sorry
+	       	var location = new MM.Location(p.latitude, p.longitude);
+	       	var dimensions = new MM.Point(75, 75); //this gives dimension to div
+	       	var f = new MM.Follower(m, location, html, dimensions);
+	   	}
+	}
+
+	// Move the button to the zoom controls
 	$(this).addClass('change');
 	$('.pictures img').addClass('appear');
 	/*	
@@ -239,6 +195,7 @@ $('#intro-click').click(function (e){
 			$(this).removeClass('again');
 		}
 	);*/
+	
 	$(this).click(function (e){
 		if ($('.pictures img').hasClass('appear')){
 			$('.pictures img').removeClass('appear');
