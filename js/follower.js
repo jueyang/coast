@@ -27,7 +27,7 @@ mm.Follower = function(m, location, content, dimensions) {
     //this.div.style.backgroundColor = 'white';
     //this.div.style.border = 'solid black 1px';
     
-    this.div.innerHTML = content;
+    this.div.appendChild(content);
     
     mm.addEvent(this.div, 'mousedown', function(e) {
         if(!e) e = window.event;
@@ -55,6 +55,7 @@ mm.Follower.prototype = {
             return;
         }
         
+        
         if(point.x + this.dimensions.x + this.offset.x < 0) {
             // too far left
             this.div.style.display = 'none';
@@ -72,6 +73,7 @@ mm.Follower.prototype = {
             this.div.style.display = 'none';
 
         } else {
+            this.div.style.display = 'block';
             // this.div.style.display = 'none';
             mm.moveElement(this.div, {
                 x: Math.round(point.x	 + this.offset.x),
