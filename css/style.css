@@ -1,6 +1,6 @@
 body {
 	background:#0c1835;
-	z-level:-999;
+	z-index:-999;
 }
 
 div, span, a {
@@ -19,13 +19,9 @@ li a:hover,li a.active {
 	font-family: 'Nixie One',cursive;
 }
 
-.title, .open, #proceed, #flickr-click {
+.title, .open, #proceed, #flickr-click, #oh, #c1, #c2, #c3, #c4  {
 	font-family: 'Homemade Apple',cursive;
 	
-}
-
-.title, .open, .towns, .newport-story, .bandon-story, .beach-story, .flickr {
-	margin-left:10%;
 }
 
 .newport-story, .bandon-story, .beach-story, .flickr {
@@ -37,7 +33,7 @@ li a:hover,li a.active {
 	display:none;
 }
 
-a.zoomer, .wax-tooltip, .towns ul li a, #proceed, #flickr-click, .pictures img {
+a.zoomer, .wax-tooltip, .towns ul li a, #proceed, #flickr-click, .linked-pictures img {
 	border-radius:3px;
 }
 
@@ -83,6 +79,7 @@ a.zoomer {
 }
 
 .title {
+	margin-left:10%;
 	padding-top:2%;
 	font-size:44px;
 }
@@ -92,15 +89,24 @@ a.zoomer {
 	font-size: 32px;
 }
 
+.story-container {
+	position:absolute;
+	width:340px;
+	height:460px;
+	margin-top:16%;
+	margin-left:10%;
+}
+
+
 .towns ul li a {
 	float:left;
 	width:54px;
 	height:35px;
-  	margin-top:12%;
   	margin-left:6px;
   	padding-top:15px;
     text-align:center;
-  	background: rgba(255,255,255,0.6);
+    font-size:0px;
+    border:dashed 1px rgba(255,255,255,0.8);
   	-moz-box-shadow:inset 0 0 1px #000;
 	-webkit-box-shadow:inset 0 0 1px #000;
 	box-shadow: inner 0 0 1px #000;
@@ -110,23 +116,44 @@ a.zoomer {
 	-o-transition:width 0.1s ease-in-out; /* Opera */
 }
 
-.towns ul li a:hover,.towns ul li a.active {
+#newport {
+	margin-left:0px;
+}
+
+#beach {
+    padding-top:10px;
+    padding-bottom:5px;
+}
+
+
+.towns ul li a:hover {
 	width:120px;
 	font-size:16px;
-	background: #f8e578;
 }
 
 .towns ul li a.active {
+    width:120px;
+    height:37px;
+	font-size:16px;
     background: #79d1b8;
+    color:#0b1836;
+    border:none;
+}
+
+.active span {
+	color:#0b1836;
 }
 
 .towns ul li a.active.hover {
     width:54px;
+    font-size:0px;
 }
+
 
 
 .open {
 	position:absolute;
+	margin-left:10%;
 	line-height:66px;
 	width:50%;
 	margin-top:10%;
@@ -136,7 +163,7 @@ a.zoomer {
 #proceed{
 	position:absolute;
 	line-height:44px;
-	margin-top:10%;
+	margin-top:2%;
 	margin-left:85%;
 	padding:0px 8px 0px 8px;
 	font-size:44px;
@@ -152,61 +179,60 @@ a.zoomer {
 }
 
 .newport-story, .bandon-story, .beach-story, .flickr {
-	height:294px;
-	width:336px;
-	padding-top:18%;
+    float:left;
+	padding-top:10%;
+    line-height:26px;
 	font-size: 22px;
 	font-weight:light;
 	z-index:1;
 }
 
-#c1, #c2, #c3 {
+.flickr {
+	width:300px;
+}
+
+#c1, #c2, #c3, #c4 {
 	float:left;
-	padding-top:18px;
-	padding-right:26px;
-	font-family:Zapfino;
+	padding:10px 26px 0px 2px;
 	font-size: 48px;
 }
 
 
 #flickr-click {
 	width:266px;
-	margin-top:20%;
+	margin-top:8%;
 	padding:20px;
 	font-size:22px;
 	text-align:center;	
 }
 
-#flickr-click:hover{
-	border:1px dashed #fff;
-}
-
 #flickr-click a {
-	color:rgba(255,255,255,0.6);
+	color:rgba(255,255,255,0);
+	text-shadow:0px 0px 8px #fff;
 }
 
 #flickr-click a:hover {
 	color:#fff;
+	text-shadow:none;
 }
 
-
-#flickr-click.change{
-    width:25px;
-	height:25px;
-	padding:0px;
-	bottom:20px;
-	left:90px;
-    font-size:0px;
-	background-image:url(../images/pic-icon.jpg); 
-	border:0px;
+#flickr-click.change a {
+	color:#fff;
+	text-shadow:none;
 }
 
-
-#flickr-click.change.again{
-	background-image:url(../images/pic-icon-bw.jpg);
-	border:0px;
+.picture-container ul{
+    position:absolute;
+	width:40%;
+	height:320px;
+	margin-top:16%;
+    left:35%;
+    overflow-y:auto;
 }
 
-.pictures{
-	z-index:999;
+#sm-pictures img{
+	margin-left: 10px;
+	margin-bottom:10px;
+	float:left;
+	border-radius: 2px;
 }

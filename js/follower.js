@@ -20,14 +20,15 @@ mm.Follower = function(m, location, content, dimensions) {
     m.addCallback('drawn', callback);
     
     this.div = document.createElement('div');
-    $(this.div).addClass('pictures');
+    $(this.div).addClass('linked-pictures');
     this.div.style.position = 'absolute';
     this.div.style.width = this.dimensions.x + 'px';
     this.div.style.height = this.dimensions.y + 'px';
     //this.div.style.backgroundColor = 'white';
     //this.div.style.border = 'solid black 1px';
     
-    this.div.appendChild(content);
+    //this.div.appendChild(content);
+    $(this.div).append('<img src="./images/marker.png">')
     
     mm.addEvent(this.div, 'mousedown', function(e) {
         if(!e) e = window.event;

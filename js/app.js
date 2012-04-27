@@ -23,20 +23,46 @@ wax.tilejson(url + '.jsonp',function(tilejson) {
 
 
 
-//get photos from flickr, draw them on the screen (ie.Locationpoint) in follower.js
+//get photos from flickr
 
 window.jsonFlickrApi = function(rsp) {
+
+	//add progress bar here - start
+    
+    
+    //$() complete later, add progress bar 
     var photos = rsp.photos.photo;
-    for (var i = 0; i < photos.length; i++) {
+    for (var i = 0; i < 112; i++) {
         var p = photos[i];
-        var url = [ 'http://farm', p.farm, '.static.flickr.com/', p.server, '/', p.id, '_', p.secret, '_s.jpg' ].join('');
+        var url = [ 'http://farm', p.farm, '.static.flickr.com/', p.server, '/', p.id, '_', p.secret, '_q.jpg' ].join('');
         var img = document.createElement('img');
-        img.src = url;    
-        // var html = "<" + "img src='" + url + "'" + ">"; // weird for 'eval', sorry
+        img.src = url;   // to replace --> var html = "<" + "img src='" + url + "'" + ">"; // weird for 'eval', sorry   
+        
+        //geographical display with Follower
+        
         var location = new MM.Location(p.latitude, p.longitude);
         var dimensions = new MM.Point(75, 75);
         var f = new MM.Follower(m, location, img, dimensions);
-    }
+               
+        //non-geographical display
+        
+        var li = $('<li><img src="'+ url +'" height="30px"/></li>')
+          .appendTo('#sm-pictures').hover(
+          	(function(f, url) {
+          	return function(){
+          		$('img',f.div).attr('src',url);
+          	};
+          	})(f, url),
+          	(function(f) {
+          	return function(){
+          		$('img',f.div).attr('src','./images/marker.png');
+          	};
+          	})(f)
+          );
+                
+        // var li =  $('#sm-pictures').append('<li><img src="'+ url +'" height="30px"/></li>');
+     	
+         }
 }
 
 function flickr(){
@@ -69,10 +95,8 @@ function easeIt(x, y, z, callback) {
         easey.slow(m, options);
 }
 
-// layer expand and selection
+// layer expand 
 
-
-	//i have question!
 $('ul.layerswitch li a').hover(
 	function(){
 		if(!$(this).hasClass('active')){
@@ -86,57 +110,55 @@ $('ul.layerswitch li a').hover(
 	}
 );
 
+// layer selection
+
 $('ul.layerswitch li a').click(function (e) {
     e.preventDefault();
     if (!$(this).hasClass('active')) {
         $('ul.layerswitch li a').removeClass('active');
+        $('ul.layerswitch li a').removeClass('hover');
         $(this).addClass('active');
         if (this.id == 'oregon') {
-        	easeIt(43.565,-123.795,8);
+        	easeIt(43.565,-127.049,8);
         	$('.open').css('display','none');
         	$('.flickr').css('display','block');
-        	$('#c1').css('display','none');
         	$('.newport-story').css('display','none');
-        	$('#c2').css('display','none');
    			$('.bandon-story').css('display','none');
-   			$('#c3').css('display','none');
    			$('.beach-story').css('display','none');
+   			$('.picture-container').add();
 
         }
         if (this.id == 'newport') {
         	easeIt(44.6133,-124.0655,10);
         	$('.open').css('display','none');
         	$('.flickr').css('display','none');
-        	$('#c1').css('display','block');
         	$('.newport-story').css('display','block');
-        	$('#c2').css('display','none');
    			$('.bandon-story').css('display','none');
-   			$('#c3').css('display','none');
    			$('.beach-story').css('display','none');
+   			$('.picture-container').remove();
+   			$('.linked-pictures').remove();
         }
         if (this.id == 'bandon') {
    			easeIt(43.1431,-124.3432,10);
    			$('.open').css('display','none');
    			$('.flickr').css('display','none');
-   			$('#c1').css('display','none');
         	$('.newport-story').css('display','none');
-   			$('#c2').css('display','block');
    			$('.bandon-story').css('display','block');   		
-   			$('#c3').css('display','none');
    			$('.beach-story').css('display','none');
+   			$('.picture-container').remove();
+   			$('.linked-pictures').remove();
 
         }
         if (this.id == 'beach') {
    			easeIt(42.203847,-124.374956,10);
    			$('.open').css('display','none');
    			$('.flickr').css('display','none');
-   			$('#c1').css('display','none');
         	$('.newport-story').css('display','none');
-        	$('#c2').css('display','none');
    			$('.bandon-story').css('display','none');
-   			$('#c3').css('display','block');
    			$('.beach-story').css('display','block');
-   
+   			$('.picture-container').css('display','none');
+   			$('.picture-container').remove();
+   			$('.linked-pictures').remove();
         }
         
     }
@@ -150,7 +172,6 @@ $('#proceed').click(function (e) {
     $('ul.layerswitch li a').removeClass('active');
 	$('#newport').addClass('active');
     $('.open').fadeOut('4000');
-    $('#c1').css('display','block');
     $('.newport-story').css('display','block');
     $('#topbar').fadeIn('4000');
     $('#topbar').css('display','block');
@@ -164,13 +185,12 @@ $('.title a').click(function (e) {
 	$('#topbar').fadeOut('8000');
 	$('.open').fadeIn('8000');
 	$('.towns').css('display','none');
-   	$('#flickr').css('display','none');
-    $('#c1').css('display','none');
+   	$('.flickr').css('display','none');
   	$('.newport-story').css('display','none');
-    $('#c2').css('display','none');
    	$('.bandon-story').css('display','none');
-   	$('#c3').css('display','none');
    	$('.beach-story').css('display','none');
+   	$('.picture-container').remove();
+   	$('.linked-pictures').remove();
    	easeIt(43.565,-127.049,10);
 });
 
@@ -179,9 +199,10 @@ $('.title a').click(function (e) {
 $('#flickr-click').click(function (e){
 	e.preventDefault();
 	flickr();
+	//add progress bar here - finish
 	$(this).addClass('change');
-	//$('.pictures img').addClass('appear');
-	/*$(this).hover(
+	/*
+	$(this).hover(
 		function() {
 			$(this).addClass('again');
 		},
@@ -189,16 +210,7 @@ $('#flickr-click').click(function (e){
 			$(this).removeClass('again');
 		}
 	);
-	$(this).click(function (e){
-		if ($('.pictures img').hasClass('appear')){
-			$('.pictures img').removeClass('appear');
-			$(this).addClass('again');
-		}
-		else {
-			$('.pictures img').addClass('appear');
-			$(this).removeClass('again');
-		}
-	});*/
+	*/
 });
 
 
