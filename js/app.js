@@ -21,15 +21,22 @@ wax.tilejson(url + '.jsonp',function(tilejson) {
     var bbox = [extent.west, extent.south, extent.east, extent.north].join(',');
 });
 
+//add progress bar start
 
-
+function startmoving(){
+	var progress = $('#moving-line')
+		.css('display','block')
+		.animate(
+    	{"left": "-=1000px"},
+    	100000,
+    	"linear"
+)};
+    
 //get photos from flickr
 
 window.jsonFlickrApi = function(rsp) {
 
-	//add progress bar here - start
-    
-    
+
     //$() complete later, add progress bar 
     var photos = rsp.photos.photo;
     for (var i = 0; i < 112; i++) {
@@ -44,25 +51,28 @@ window.jsonFlickrApi = function(rsp) {
         var dimensions = new MM.Point(75, 75);
         var f = new MM.Follower(m, location, img, dimensions);
                
-        //non-geographical display
+        //non-geographical display, 
         
         var li = $('<li><img src="'+ url +'" height="30px"/></li>')
           .appendTo('#sm-pictures').hover(
           	(function(f, url) {
           	return function(){
-          		$('img',f.div).attr('src',url);
+          		$('img',f.div).attr('src',url); //exchange marker with the img url
           	};
           	})(f, url),
           	(function(f) {
           	return function(){
-          		$('img',f.div).attr('src','./images/marker.png');
+          		$('img',f.div).attr('src','./images/marker.png'); //exchange img url with marker
           	};
           	})(f)
           );
                 
         // var li =  $('#sm-pictures').append('<li><img src="'+ url +'" height="30px"/></li>');
+        
+        //when this function is completed, the progressbar and the topbar disappears
+        var stopmoving = $('#moving-line').stop().fadeOut('40000');
      	
-         }
+        }
 }
 
 function flickr(){
@@ -79,7 +89,9 @@ function flickr(){
 	               'format=json';
 	document.getElementsByTagName('head')[0].appendChild(script);
 }
-	
+
+
+
 // easeIt
 
 function easeIt(x, y, z, callback) {
@@ -122,43 +134,42 @@ $('ul.layerswitch li a').click(function (e) {
         	easeIt(43.565,-127.049,8);
         	$('.open').css('display','none');
         	$('.flickr').css('display','block');
+            $('#topbar').css('display','block');
         	$('.newport-story').css('display','none');
    			$('.bandon-story').css('display','none');
    			$('.beach-story').css('display','none');
-   			$('.picture-container').add();
-
+   			$('#sm-pictures').css('display','block');
         }
         if (this.id == 'newport') {
         	easeIt(44.6133,-124.0655,10);
         	$('.open').css('display','none');
         	$('.flickr').css('display','none');
+        	$('#topbar').css('display','block');
         	$('.newport-story').css('display','block');
    			$('.bandon-story').css('display','none');
    			$('.beach-story').css('display','none');
-   			$('.picture-container').remove();
-   			$('.linked-pictures').remove();
+   			$('#sm-pictures').css('display','none');
         }
         if (this.id == 'bandon') {
    			easeIt(43.1431,-124.3432,10);
    			$('.open').css('display','none');
    			$('.flickr').css('display','none');
+   			$('#topbar').css('display','block');
         	$('.newport-story').css('display','none');
    			$('.bandon-story').css('display','block');   		
    			$('.beach-story').css('display','none');
-   			$('.picture-container').remove();
-   			$('.linked-pictures').remove();
+   			$('#sm-pictures').css('display','none');
 
         }
         if (this.id == 'beach') {
    			easeIt(42.203847,-124.374956,10);
    			$('.open').css('display','none');
    			$('.flickr').css('display','none');
+        	$('#topbar').css('display','block');        	
         	$('.newport-story').css('display','none');
    			$('.bandon-story').css('display','none');
    			$('.beach-story').css('display','block');
-   			$('.picture-container').css('display','none');
-   			$('.picture-container').remove();
-   			$('.linked-pictures').remove();
+   			$('#sm-pictures').css('display','none');
         }
         
     }
@@ -189,7 +200,7 @@ $('.title a').click(function (e) {
   	$('.newport-story').css('display','none');
    	$('.bandon-story').css('display','none');
    	$('.beach-story').css('display','none');
-   	$('.picture-container').remove();
+   	$('#sm-pictures').css('display','none');
    	$('.linked-pictures').remove();
    	easeIt(43.565,-127.049,10);
 });
@@ -198,19 +209,10 @@ $('.title a').click(function (e) {
 	
 $('#flickr-click').click(function (e){
 	e.preventDefault();
+	startmoving();
 	flickr();
-	//add progress bar here - finish
+    $('#topbar').fadeOut('100000')
 	$(this).addClass('change');
-	/*
-	$(this).hover(
-		function() {
-			$(this).addClass('again');
-		},
-		function() {
-			$(this).removeClass('again');
-		}
-	);
-	*/
 });
 
 

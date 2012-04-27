@@ -33,7 +33,7 @@ li a:hover,li a.active {
 	display:none;
 }
 
-a.zoomer, .wax-tooltip, .towns ul li a, #proceed, #flickr-click, .linked-pictures img {
+a.zoomer, .wax-tooltip, .towns ul li a, #proceed, .linked-pictures img {
 	border-radius:3px;
 }
 
@@ -96,7 +96,6 @@ a.zoomer {
 	margin-top:16%;
 	margin-left:10%;
 }
-
 
 .towns ul li a {
 	float:left;
@@ -180,28 +179,44 @@ a.zoomer {
 
 .newport-story, .bandon-story, .beach-story, .flickr {
     float:left;
-	padding-top:10%;
+	margin-top:2px;
+	padding:22px 22px 22px 0px;
     line-height:26px;
-	font-size: 22px;
+	font-size: 18px;
 	font-weight:light;
 	z-index:1;
 }
 
 .flickr {
 	width:300px;
+	overflow:hidden;
 }
 
 #c1, #c2, #c3, #c4 {
 	float:left;
-	padding:10px 26px 0px 2px;
+	padding:16px 26px 0px 2px;
 	font-size: 48px;
 }
 
+.line-container {
+	width:295px;
+	height:30px;
+	margin-top:22px;
+	overflow:hidden;
+}
+
+#moving-line {
+	position:relative;
+	width:10000px;
+	height:20px;
+    background-image: url(../images/new-dots.png);
+    display:none;     
+}
 
 #flickr-click {
+	position:absolute;
 	width:266px;
-	margin-top:8%;
-	padding:20px;
+    margin-top:28px;
 	font-size:22px;
 	text-align:center;	
 }
@@ -227,7 +242,7 @@ a.zoomer {
 	height:320px;
 	margin-top:16%;
     left:35%;
-    overflow-y:auto;
+    overflow:hidden;
 }
 
 #sm-pictures img{
