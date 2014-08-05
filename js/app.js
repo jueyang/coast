@@ -55,23 +55,29 @@ var towns = {
 
 L.mapbox.accessToken = 'pk.eyJ1IjoianVlIiwiYSI6InFsakR2UEkifQ.GSsNWZF7HVlLqwdhWuM2gA';
 
+var zoomPanOps = {animated:true, duration:0.5};
+var dotB = L.icon({
+    iconUrl: 'images/dot-blue.png',
+    iconSize: [100,100]
+});
+
+var dotY = L.icon({
+    iconUrl: 'images/dot-yellow.png',
+    iconSize: [100,100]
+});
+
 var map = L.mapbox.map('map', 'jue.map-9f0twc3h',{
     minZoom:6,
     maxZoom:9,
     zoomControl: false
-}).setView([43.5, -128], 7);
-
-var dot = L.icon({
-    iconUrl: 'images/blurred-dot.png',
-    iconSize: [100,100]
-});
+}).setView([43.5, -128], 7, zoomPanOps);
 
 var layerGroup = L.layerGroup(), //store a copy of layers to be used for DOM/map interaction
     activeStory = false;
 
 var townLayers = L.geoJson(towns,{
     pointToLayer: function(feature,latlng){
-        return L.marker(latlng, {icon: dot});
+        return L.marker(latlng, {icon: dotB});
     },
     onEachFeature: function(feature,layer){
         var title = '<h1>' + feature.properties.name + '</h1>';
@@ -87,10 +93,12 @@ var townLayers = L.geoJson(towns,{
         .setContent(all)
         .setLatLng(layer.getLatLng());
 
+        layer.addTo(layerGroup);
+
         layer.on('click',function(){
-            map.openPopup(feature.properties.all);
+            story(layer,feature.properties.all);
             activeStory = feature.properties.id;
-        }).addTo(layerGroup);
+        });
     }
 }).addTo(map);
 
@@ -111,6 +119,17 @@ function crossFade(){
     $('.fader').toggleClass('blink');
 }
 
+function story(layer,popup){
+    layerGroup.eachLayer(function(l){
+        l.setIcon(dotB);
+    });
+
+    setTimeout(function(){
+        layer.setIcon(dotY);
+        map.openPopup(popup);
+    },200);
+}
+
 function toNextStory(){
 
   var next;
@@ -122,15 +141,18 @@ function toNextStory(){
 
   layerGroup.eachLayer(function(layer) {
     if (layer.feature.properties.id === next) {
+
       nextStory = layer.feature.properties.all;
-      map.setView(layer.getLatLng(), layer.feature.properties.zoom);
-      map.openPopup(nextStory);
+
+      map.panTo(layer.getLatLng(),zoomPanOps);
+
+      story(layer,nextStory);
 
       paragraphOpen = true;
       activeStory = next;
       }
     });
-  }
+}
 });
 	
   
