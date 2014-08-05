@@ -1,44 +1,125 @@
+/* animation */
+.blink {
+  animation: blink 5s infinite;
+  -webkit-animation: blink 5s infinite;
+}
+
+@-webkit-keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+.fadeOut,.fadeIn {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* layout*/
 body {
+	font-size:16px;
+	font-family: 'Homemade Apple',cursive;
+	line-height:44px;
 	background:#0c1835;
-	z-level:-999;
 }
 
-div, span, a {
-	color:#fff;
+h1{
+	font-weight:normal;
+	display:block;
+	color:#79d1b8;
+	text-align:center;
+	word-spacing: 4px;
 }
-
 a {
 	text-decoration: none;
 }
 
-li a:hover,li a.active {
-	font-weight:bold;
+.controller,
+.open {
+	position:absolute;
+	top:40px;
+	left:40px;
+	color:#f2f2f2;
 }
-
-.wax-tooltip, .towns, .newport-story, .bandon-story, .beach-story, .flickr {
-	font-family: 'Nixie One',cursive;
+.open {
+	z-index:5;
+	width:300px;
 }
-
-.title, .open, #proceed, #flickr-click {
-	font-family: 'Homemade Apple',cursive;
-	
+.controller{
+	z-index:10;
+	color:#79d1b8;
+	cursor:pointer;
 }
-
-.title, .open, .towns, .newport-story, .bandon-story, .beach-story, .flickr {
-	margin-left:10%;
-}
-
-.newport-story, .bandon-story, .beach-story, .flickr {
-	font-weight:light;
-}
-
-
-#topbar, .towns, a.zoomdisabled, .newport-story, .bandon-story, .beach-story, .flickr {
-	display:none;
-}
-
-a.zoomer, .wax-tooltip, .towns ul li a, #proceed, #flickr-click, .pictures img {
-	border-radius:3px;
+.controller li {
+	float:left;
+	display:block;
+	margin-right:10px;
 }
 
 #map {
@@ -46,167 +127,28 @@ a.zoomer, .wax-tooltip, .towns ul li a, #proceed, #flickr-click, .pictures img {
 	width:100%;
 	height:100%;
 	margin:0;
-	z-index:-1;
+	z-index:0;
 }
 
-#topbar {
-	position:absolute;
-	width:100%;
-	background:rgba(163,129,81,0.7);
-	-webkit-box-shadow: 0px 3px 5px rgba(163,129,81,0.7);
-	-moz-box-shadow:    0px 3px 5px rgba(163,129,81,0.7);
-	box-shadow:         0px 3px 5px rgba(163,129,81,0.7);
-	z-index:1;
+.leaflet-container p {
+	font-size:20px;
+	font-family: 'Crimson Text',serif;
+	font-style:italic;
+	line-height:28px;
 }
-
-a.zoomer {
-	bottom: 20px;
-	margin-left:25px;
-	background:rgba(255,255,255,0.5);
-	color:#0b1836;
-  }
-
-  a.zoomin {
-    left:5px;
-    }
-
-  a.zoomout {
-    left:35px;
-    }
-
-.wax-tooltip {
-	padding:12px;
-	background:rgba(11,24,54,0.4);
-	font-size:16px;
-	color:#0b1936;
-	display:block;
+.leaflet-popup-content-wrapper {
+	background:transparent;
+	box-shadow:none;
 }
-
-.title {
-	padding-top:2%;
-	font-size:44px;
+.leaflet-popup-content {
+	font-family: 'Homemade Apple',cursive;
+	background:#0c1835;
 }
-
-.title span.small {
-	padding:12px;
-	font-size: 32px;
-}
-
-.towns ul li a {
-	float:left;
-	width:54px;
-	height:35px;
-  	margin-top:12%;
-  	margin-left:6px;
-  	padding-top:15px;
-    text-align:center;
-  	background: rgba(255,255,255,0.6);
-  	-moz-box-shadow:inset 0 0 1px #000;
-	-webkit-box-shadow:inset 0 0 1px #000;
-	box-shadow: inner 0 0 1px #000;
-  	transition:width 0.1s ease-in-out;
-	-moz-transition:width 0.1s ease-in-out; /* Firefox 4 */
-	-webkit-transition:width 0.1s ease-in-out; /* Safari and Chrome */
-	-o-transition:width 0.1s ease-in-out; /* Opera */
-}
-
-.towns ul li a:hover,.towns ul li a.active {
-	width:120px;
-	font-size:16px;
-	background: #f8e578;
-}
-
-.towns ul li a.active {
-    background: #79d1b8;
-}
-
-.towns ul li a.active.hover {
-    width:54px;
-}
-
-
-.open {
-	position:absolute;
-	line-height:66px;
-	width:50%;
-	margin-top:10%;
-	font-size:32px;
-}
-
-#proceed{
-	position:absolute;
-	line-height:44px;
-	margin-top:10%;
-	margin-left:85%;
-	padding:0px 8px 0px 8px;
-	font-size:44px;
-	background: rgba(255,255,255,0.6);
-}
-
-#proceed a {
- 	color:#0b1936;
-}
-
-#proceed a:hover {
- 	color:#fff !important;
-}
-
-.newport-story, .bandon-story, .beach-story, .flickr {
-	height:294px;
-	width:336px;
-	padding-top:18%;
-	font-size: 22px;
-	font-weight:light;
-	z-index:1;
-}
-
-#c1, #c2, #c3 {
-	float:left;
-	padding-top:18px;
-	padding-right:26px;
-	font-family:Zapfino;
-	font-size: 48px;
-}
-
-
-#flickr-click {
-	width:266px;
-	margin-top:20%;
+.leaflet-popup-content .story {
+	width:400px;
 	padding:20px;
-	font-size:22px;
-	text-align:center;	
-}
-
-#flickr-click:hover{
-	border:1px dashed #fff;
-}
-
-#flickr-click a {
-	color:rgba(255,255,255,0.6);
-}
-
-#flickr-click a:hover {
 	color:#fff;
 }
-
-
-#flickr-click.change{
-    width:25px;
-	height:25px;
-	padding:0px;
-	bottom:20px;
-	left:90px;
-    font-size:0px;
-	background-image:url(../images/pic-icon.jpg); 
-	border:0px;
-}
-
-
-#flickr-click.change.again{
-	background-image:url(../images/pic-icon-bw.jpg);
-	border:0px;
-}
-
-.pictures{
-	z-index:999;
+.leaflet-popup-tip {
+	border:0;
 }
