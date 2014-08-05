@@ -154,3 +154,17 @@ a {
 .leaflet-popup-tip {
 	border:0;
 }
+
+@media screen and (max-width:645px){
+	body {font-size:0.9em!important;}
+	.open,	
+	.leaflet-popup-content .story {
+		width:280px;
+	}
+	.controller,
+	.open {
+		top:auto;
+		bottom:20px;
+		left:20px;
+	}
+}
