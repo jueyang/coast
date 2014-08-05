@@ -71,6 +71,8 @@
 
 		$('.fader').bind('click',function(){
 			$('.open').toggleClass('fadeIn fadeOut');
+			$('.story').toggleClass('fadeIn',false)
+				.toggleClass('fadeOut',true);
 			$('.fader').toggleClass('blink');
 		});
 		$('.looper').bind('click',toNextStory);
