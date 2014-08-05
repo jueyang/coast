@@ -79,8 +79,3 @@ app.towns = {
 //                'format=json';
 //   document.getElementsByTagName('head')[0].appendChild(script);
 // };
-
-
-	
-  
-
