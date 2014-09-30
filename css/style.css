@@ -86,7 +86,7 @@ body {
 	font-size:16px;
 	font-family: 'Homemade Apple',cursive;
 	line-height:44px;
-	background:#0c1835;
+	background:#0B1A36;
 }
 
 h1{
@@ -137,6 +137,7 @@ a {
 	font-family: 'Crimson Text',serif;
 	font-style:italic;
 	line-height:28px;
+	letter-spacing:.5px;
 }
 .leaflet-popup-content-wrapper {
 	background:transparent;
